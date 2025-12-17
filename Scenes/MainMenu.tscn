@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=3 uid="uid://duc3dap55fujx"]
+
+[ext_resource type="Script" uid="uid://dg0etr8vt4fwp" path="res://Scripts/main_menu.gd" id="1_853f1"]
+[ext_resource type="FontFile" uid="uid://6axqsl8fqbcu" path="res://Fonts/gomarice_shmup_in_the_zone.ttf" id="2_8saeu"]
+[ext_resource type="Texture2D" uid="uid://clpec6ljj4wa5" path="res://Art/BasicBG.png" id="2_ghw46"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_df05h"]
+atlas = ExtResource("2_ghw46")
+
+[sub_resource type="LabelSettings" id="LabelSettings_k52d1"]
+font = ExtResource("2_8saeu")
+font_size = 120
+outline_color = Color(0.47058824, 0, 1, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_m5628"]
+font = ExtResource("2_8saeu")
+font_size = 50
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_853f1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_df05h")
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer"]
+layout_direction = 4
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 103.0
+offset_bottom = 224.0
+grow_horizontal = 2
+text = "Darius"
+label_settings = SubResource("LabelSettings_k52d1")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 221.0
+offset_bottom = 272.0
+grow_horizontal = 2
+text = "the tribute"
+label_settings = SubResource("LabelSettings_m5628")
+horizontal_alignment = 1
+
+[node name="Level1Button" type="Button" parent="CanvasLayer"]
+offset_left = 325.0
+offset_top = 380.0
+offset_right = 975.0
+offset_bottom = 440.0
+size_flags_horizontal = 3
+text = "Play Easy"
+icon_alignment = 1
+
+[node name="Level2Button" type="Button" parent="CanvasLayer"]
+offset_left = 325.0
+offset_top = 457.0
+offset_right = 975.0
+offset_bottom = 517.0
+size_flags_horizontal = 3
+text = "Play Normal"
+icon_alignment = 1
+
+[node name="Level3Button" type="Button" parent="CanvasLayer"]
+offset_left = 325.0
+offset_top = 538.0
+offset_right = 975.0
+offset_bottom = 598.0
+size_flags_horizontal = 3
+text = "Play Hard"
+icon_alignment = 1
+
+[node name="QuitButton" type="Button" parent="CanvasLayer"]
+offset_left = 325.0
+offset_top = 620.0
+offset_right = 975.0
+offset_bottom = 680.0
+size_flags_horizontal = 3
+text = "Quit"
+icon_alignment = 1
+
+[connection signal="button_down" from="CanvasLayer/Level1Button" to="." method="_on_easy_pressed"]
+[connection signal="button_down" from="CanvasLayer/Level2Button" to="." method="_on_normal_pressed"]
+[connection signal="button_down" from="CanvasLayer/Level3Button" to="." method="_on_hard_pressed"]
+[connection signal="button_down" from="CanvasLayer/QuitButton" to="." method="_on_quit_pressed"]

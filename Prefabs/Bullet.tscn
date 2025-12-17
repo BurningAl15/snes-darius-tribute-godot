@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmkia3amdktmm"]
+
+[ext_resource type="Script" uid="uid://t4aj0mdf6k7a" path="res://Scripts/bullet.gd" id="1_pv5ng"]
+[ext_resource type="Texture2D" uid="uid://bxp5rsx7c1p6w" path="res://Art/Space.png" id="2_ossmt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8tsa6"]
+atlas = ExtResource("2_ossmt")
+region = Rect2(131, 18, 32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lvlq8"]
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_pv5ng")
+
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["player_bullets"]]
+texture_filter = 1
+texture = SubResource("AtlasTexture_8tsa6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lvlq8")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

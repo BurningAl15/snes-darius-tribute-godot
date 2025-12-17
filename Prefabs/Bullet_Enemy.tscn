@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cm2s264nmvner"]
+
+[ext_resource type="Script" uid="uid://bb48fjn8e5fak" path="res://Scripts/bullet_enemy.gd" id="1_1khbp"]
+[ext_resource type="Texture2D" uid="uid://bxp5rsx7c1p6w" path="res://Art/Space.png" id="1_ikmb0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1khbp"]
+atlas = ExtResource("1_ikmb0")
+region = Rect2(130, 44, 32, 30)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2aumu"]
+
+[node name="EnemyBullet" type="Area2D" groups=["enemy_bullets"]]
+script = ExtResource("1_1khbp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_1khbp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2aumu")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

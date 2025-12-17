@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://c57hijfri57xk"]
+
+[ext_resource type="Texture2D" uid="uid://bxp5rsx7c1p6w" path="res://Art/Space.png" id="1_3qcqw"]
+[ext_resource type="Script" uid="uid://doypqx21cph6l" path="res://Scripts/enemy_shooter.gd" id="1_7n3xp"]
+[ext_resource type="PackedScene" uid="uid://cm2s264nmvner" path="res://Prefabs/Bullet_Enemy.tscn" id="2_gl6tr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3qcqw"]
+atlas = ExtResource("1_3qcqw")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7n3xp"]
+radius = 22.0
+
+[node name="EnemyShooter" type="Area2D" groups=["enemies"]]
+script = ExtResource("1_7n3xp")
+bullet_scene = ExtResource("2_gl6tr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_3qcqw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7n3xp")
+
+[node name="ShootTimer" type="Timer" parent="."]

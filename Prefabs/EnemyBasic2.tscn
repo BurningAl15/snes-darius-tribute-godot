@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3lyo04n366ke"]
+
+[ext_resource type="Texture2D" uid="uid://bxp5rsx7c1p6w" path="res://Art/Space.png" id="1_66lty"]
+[ext_resource type="Script" uid="uid://dqgoqb7phya70" path="res://Scripts/enemy_basic.gd" id="1_cfaey"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfaey"]
+atlas = ExtResource("1_66lty")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_66lty"]
+radius = 13.0
+height = 64.0
+
+[node name="EnemyBasic2" type="Area2D" groups=["enemies"]]
+script = ExtResource("1_cfaey")
+speed = 120.0
+max_hp = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_cfaey")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -7)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_66lty")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-21, -10)
+rect = Rect2(-10, -10, 64, 20)

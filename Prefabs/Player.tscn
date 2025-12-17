@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://bcgqm4cpobvd2"]
+
+[ext_resource type="Script" uid="uid://nd1i6iv5l1d3" path="res://Scripts/player.gd" id="1_um8lo"]
+[ext_resource type="PackedScene" uid="uid://dmkia3amdktmm" path="res://Prefabs/Bullet.tscn" id="2_b43ah"]
+[ext_resource type="Texture2D" uid="uid://bxp5rsx7c1p6w" path="res://Art/Space.png" id="2_x3d5u"]
+[ext_resource type="PackedScene" uid="uid://dpcotejdgspeb" path="res://Prefabs/ChargedBullet.tscn" id="3_shmu5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b43ah"]
+atlas = ExtResource("2_x3d5u")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_shmu5"]
+radius = 26.0
+height = 102.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vxq8l"]
+size = Vector2(100, 54)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_um8lo")
+bullet_scene = ExtResource("2_b43ah")
+charged_bullet_scene = ExtResource("3_shmu5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_b43ah")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 5)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_shmu5")
+
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(36, 28)
+
+[node name="Muzzle2" type="Marker2D" parent="."]
+position = Vector2(18, -16)
+
+[node name="Hurtbox" type="Area2D" parent="." groups=["player_hurtbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(9, 5)
+shape = SubResource("RectangleShape2D_vxq8l")

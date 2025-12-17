@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3u4nnw1esp5a"]
+
+[ext_resource type="Script" uid="uid://dqgoqb7phya70" path="res://Scripts/enemy_basic.gd" id="1_w0s66"]
+[ext_resource type="Texture2D" uid="uid://bxp5rsx7c1p6w" path="res://Art/Space.png" id="2_vaxw3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jj1un"]
+atlas = ExtResource("2_vaxw3")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w0s66"]
+radius = 16.03122
+
+[node name="EnemyBasic" type="Area2D" groups=["enemies"]]
+script = ExtResource("1_w0s66")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_jj1un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_w0s66")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(1.6102886, 1.538293)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -1,0 +1,145 @@
+[gd_scene load_steps=16 format=3 uid="uid://btm1bghevmg0c"]
+
+[ext_resource type="Script" uid="uid://bxnsksbytjaie" path="res://Scripts/level_controller.gd" id="1_7bpbi"]
+[ext_resource type="PackedScene" uid="uid://c3u4nnw1esp5a" path="res://Prefabs/Enemy_Basic.tscn" id="2_cii6s"]
+[ext_resource type="PackedScene" uid="uid://criwiwwviuj5t" path="res://Scenes/Victory.tscn" id="3_1cq1v"]
+[ext_resource type="PackedScene" uid="uid://d3lyo04n366ke" path="res://Prefabs/EnemyBasic2.tscn" id="3_cii6s"]
+[ext_resource type="PackedScene" uid="uid://c57hijfri57xk" path="res://Prefabs/Enemy_Shooter.tscn" id="4_1cq1v"]
+[ext_resource type="PackedScene" uid="uid://d3il4qsm5uenq" path="res://Scenes/GameOver.tscn" id="4_k2cu0"]
+[ext_resource type="Texture2D" uid="uid://clpec6ljj4wa5" path="res://Art/BasicBG.png" id="5_j30js"]
+[ext_resource type="PackedScene" uid="uid://bcgqm4cpobvd2" path="res://Prefabs/Player.tscn" id="6_tu1tw"]
+[ext_resource type="FontFile" uid="uid://6axqsl8fqbcu" path="res://Fonts/gomarice_shmup_in_the_zone.ttf" id="7_go3nu"]
+[ext_resource type="Texture2D" uid="uid://c5qpx5adfjuiv" path="res://Art/Empty.png" id="8_wrb7l"]
+[ext_resource type="Texture2D" uid="uid://02fn80pu81u5" path="res://Art/Full.png" id="9_1rnus"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7rmgh"]
+font = ExtResource("7_go3nu")
+
+[sub_resource type="LabelSettings" id="LabelSettings_4osf3"]
+font = ExtResource("7_go3nu")
+
+[sub_resource type="LabelSettings" id="LabelSettings_sf2av"]
+font = ExtResource("7_go3nu")
+
+[sub_resource type="Theme" id="Theme_713nb"]
+
+[node name="Level_Normal" type="Node2D"]
+script = ExtResource("1_7bpbi")
+enemy_pool = Array[PackedScene]([ExtResource("2_cii6s"), ExtResource("3_cii6s"), ExtResource("4_1cq1v")])
+enemy_weights = Array[float]([45.0, 45.0, 10.0])
+victory_scene = ExtResource("3_1cq1v")
+game_over_scene = ExtResource("4_k2cu0")
+player_path = NodePath("Player")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(638, 362.00003)
+scale = Vector2(0.68000245, 0.68000245)
+texture = ExtResource("5_j30js")
+
+[node name="Player" parent="." instance=ExtResource("6_tu1tw")]
+position = Vector2(116, 300)
+
+[node name="Spawners" type="Node2D" parent="."]
+position = Vector2(1090, 276)
+
+[node name="SpawnTimer" type="Timer" parent="Spawners"]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Root" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimeLabel" type="Label" parent="HUD/Root"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 3.0
+offset_right = -1027.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "asdasd"
+label_settings = SubResource("LabelSettings_7rmgh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Root"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 3.0
+offset_top = 24.0
+offset_right = -1027.0
+offset_bottom = 47.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HpLabel" type="Label" parent="HUD/Root/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+text = "fasdasd"
+label_settings = SubResource("LabelSettings_4osf3")
+
+[node name="BombLabel" type="Label" parent="HUD/Root/HBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+text = "asdasd"
+label_settings = SubResource("LabelSettings_sf2av")
+
+[node name="HpBar" type="TextureProgressBar" parent="HUD/Root"]
+z_index = 20
+texture_filter = 1
+custom_minimum_size = Vector2(140, 20)
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_top = 46.0
+offset_right = -1138.0
+offset_bottom = 66.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_713nb")
+max_value = 5.0
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 5
+stretch_margin_top = 2
+stretch_margin_right = 5
+stretch_margin_bottom = 2
+texture_under = ExtResource("8_wrb7l")
+texture_over = ExtResource("9_1rnus")
+texture_progress = ExtResource("9_1rnus")
+
+[node name="ChargeBar" type="TextureProgressBar" parent="HUD/Root"]
+z_index = 20
+texture_filter = 1
+custom_minimum_size = Vector2(140, 20)
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_top = 70.0
+offset_right = -1138.0
+offset_bottom = 90.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_713nb")
+max_value = 5.0
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 5
+stretch_margin_top = 2
+stretch_margin_right = 5
+stretch_margin_bottom = 2
+texture_under = ExtResource("8_wrb7l")
+texture_over = ExtResource("9_1rnus")
+texture_progress = ExtResource("9_1rnus")

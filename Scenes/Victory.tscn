@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=3 uid="uid://criwiwwviuj5t"]
+
+[ext_resource type="Script" uid="uid://dmkdr58to2x61" path="res://Scripts/simple_menu_nav.gd" id="1_q6vst"]
+[ext_resource type="FontFile" uid="uid://6axqsl8fqbcu" path="res://Fonts/gomarice_shmup_in_the_zone.ttf" id="2_13fhg"]
+[ext_resource type="Texture2D" uid="uid://clpec6ljj4wa5" path="res://Art/BasicBG.png" id="2_f6307"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebubv"]
+atlas = ExtResource("2_f6307")
+
+[sub_resource type="LabelSettings" id="LabelSettings_k52d1"]
+font = ExtResource("2_13fhg")
+font_size = 120
+outline_color = Color(0.47058824, 0, 1, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_m5628"]
+font = ExtResource("2_13fhg")
+font_size = 50
+
+[node name="Victory" type="Node2D"]
+script = ExtResource("1_q6vst")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_ebubv")
+
+[node name="VictoryLabel" type="Label" parent="CanvasLayer"]
+layout_direction = 4
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 103.0
+offset_bottom = 224.0
+grow_horizontal = 2
+text = "Excellent job!"
+label_settings = SubResource("LabelSettings_k52d1")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 286.0
+offset_bottom = 337.0
+grow_horizontal = 2
+text = "Want to try again?"
+label_settings = SubResource("LabelSettings_m5628")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(600, 70)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -313.0
+offset_top = -253.0
+offset_right = 327.0
+offset_bottom = -173.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Yes"
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "No"
+icon_alignment = 1
+
+[connection signal="button_down" from="CanvasLayer/HBoxContainer/Button" to="." method="_on_retry_pressed"]
+[connection signal="button_down" from="CanvasLayer/HBoxContainer/Button2" to="." method="_on_back_pressed"]

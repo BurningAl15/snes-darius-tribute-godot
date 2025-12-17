@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpcotejdgspeb"]
+
+[ext_resource type="Script" uid="uid://3hktf2wtmekb" path="res://Scripts/charged_bullet.gd" id="1_e0l64"]
+[ext_resource type="Texture2D" uid="uid://bxp5rsx7c1p6w" path="res://Art/Space.png" id="1_sechl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0l64"]
+atlas = ExtResource("1_sechl")
+region = Rect2(172, 17, 64, 32)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sechl"]
+height = 64.0
+
+[node name="ChargedBullet" type="Area2D" groups=["player_bullets"]]
+script = ExtResource("1_e0l64")
+speed = 1200.0
+damage = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = SubResource("AtlasTexture_e0l64")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_sechl")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-22, 0)
+rect = Rect2(-10, -10, 64, 20)
