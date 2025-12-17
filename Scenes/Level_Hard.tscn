@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bh72tc2lx246"]
+[gd_scene load_steps=21 format=3 uid="uid://bh72tc2lx246"]
 
 [ext_resource type="Script" uid="uid://bxnsksbytjaie" path="res://Scripts/level_controller.gd" id="1_i7263"]
 [ext_resource type="PackedScene" uid="uid://c3u4nnw1esp5a" path="res://Prefabs/Enemy_Basic.tscn" id="2_skiku"]
@@ -9,13 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://clpec6ljj4wa5" path="res://Art/BasicBG.png" id="5_dtkp6"]
 [ext_resource type="PackedScene" uid="uid://bcgqm4cpobvd2" path="res://Prefabs/Player.tscn" id="6_gi0k2"]
 [ext_resource type="FontFile" uid="uid://6axqsl8fqbcu" path="res://Fonts/gomarice_shmup_in_the_zone.ttf" id="7_1h8aw"]
-[ext_resource type="Texture2D" uid="uid://c5qpx5adfjuiv" path="res://Art/Empty.png" id="8_5sopq"]
-[ext_resource type="Texture2D" uid="uid://02fn80pu81u5" path="res://Art/Full.png" id="9_fsjjj"]
+[ext_resource type="Texture2D" uid="uid://7kntouj1jryb" path="res://Art/Bars.png" id="10_skiku"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7rmgh"]
-font = ExtResource("7_1h8aw")
-
-[sub_resource type="LabelSettings" id="LabelSettings_4osf3"]
 font = ExtResource("7_1h8aw")
 
 [sub_resource type="LabelSettings" id="LabelSettings_sf2av"]
@@ -23,10 +19,41 @@ font = ExtResource("7_1h8aw")
 
 [sub_resource type="Theme" id="Theme_713nb"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_j30js"]
+atlas = ExtResource("10_skiku")
+region = Rect2(12, 222, 257, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cii6s"]
+atlas = ExtResource("10_skiku")
+region = Rect2(12, 169, 257, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1cq1v"]
+atlas = ExtResource("10_skiku")
+region = Rect2(12, 65, 257, 32)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4osf3"]
+font = ExtResource("7_1h8aw")
+font_size = 12
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2cu0"]
+atlas = ExtResource("10_skiku")
+region = Rect2(12, 222, 257, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tu1tw"]
+atlas = ExtResource("10_skiku")
+region = Rect2(12, 169, 257, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_go3nu"]
+atlas = ExtResource("10_skiku")
+region = Rect2(12, 13, 257, 32)
+
 [node name="Level_Hard" type="Node2D"]
 script = ExtResource("1_i7263")
 enemy_pool = Array[PackedScene]([ExtResource("2_skiku"), ExtResource("3_e3p37"), ExtResource("3_skiku")])
-enemy_weights = Array[float]([40.0, 40.0, 20.0])
+enemy_weights = Array[float]([45.0, 45.0, 10.0])
+phase_durations = Array[float]([20.0, 40.0, 60.0])
+phase_spawn_intervals = Array[float]([1.1, 0.9, 0.75])
+phase_weights = Array[PackedFloat32Array]([PackedFloat32Array(55, 35, 10), PackedFloat32Array(40, 50, 10), PackedFloat32Array(25, 65, 10)])
 victory_scene = ExtResource("3_c2p7f")
 game_over_scene = ExtResource("4_e3p37")
 player_path = NodePath("Player")
@@ -59,30 +86,25 @@ texture_filter = 1
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 3.0
-offset_right = -1027.0
-offset_bottom = 23.0
+offset_top = 10.0
+offset_bottom = 27.0
 grow_horizontal = 2
 text = "asdasd"
 label_settings = SubResource("LabelSettings_7rmgh")
+horizontal_alignment = 1
+uppercase = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HUD/Root"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 3.0
-offset_top = 24.0
-offset_right = -1027.0
-offset_bottom = 47.0
+offset_left = 7.0
+offset_top = 80.0
+offset_right = -1023.0
+offset_bottom = 103.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="HpLabel" type="Label" parent="HUD/Root/HBoxContainer"]
-texture_filter = 1
-layout_mode = 2
-text = "fasdasd"
-label_settings = SubResource("LabelSettings_4osf3")
 
 [node name="BombLabel" type="Label" parent="HUD/Root/HBoxContainer"]
 texture_filter = 1
@@ -98,10 +120,10 @@ layout_direction = 2
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 2.0
-offset_top = 46.0
-offset_right = -1138.0
-offset_bottom = 66.0
+offset_left = 7.0
+offset_top = 34.0
+offset_right = -1133.0
+offset_bottom = 54.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -113,33 +135,34 @@ stretch_margin_left = 5
 stretch_margin_top = 2
 stretch_margin_right = 5
 stretch_margin_bottom = 2
-texture_under = ExtResource("8_5sopq")
-texture_over = ExtResource("9_fsjjj")
-texture_progress = ExtResource("9_fsjjj")
+texture_under = SubResource("AtlasTexture_j30js")
+texture_over = SubResource("AtlasTexture_cii6s")
+texture_progress = SubResource("AtlasTexture_1cq1v")
+
+[node name="HpLabel" type="Label" parent="HUD/Root/HpBar"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 25.0
+offset_top = 2.0
+offset_right = 105.0
+offset_bottom = 19.0
+text = "fasdasd"
+label_settings = SubResource("LabelSettings_4osf3")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ChargeBar" type="TextureProgressBar" parent="HUD/Root"]
-z_index = 20
 texture_filter = 1
-custom_minimum_size = Vector2(140, 20)
-layout_direction = 2
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 2.0
-offset_top = 70.0
-offset_right = -1138.0
-offset_bottom = 90.0
-grow_horizontal = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource("Theme_713nb")
-max_value = 5.0
-value = 1.0
+layout_mode = 0
+offset_left = 7.0
+offset_top = 57.0
+offset_right = 147.0
+offset_bottom = 77.0
 nine_patch_stretch = true
 stretch_margin_left = 5
 stretch_margin_top = 2
 stretch_margin_right = 5
 stretch_margin_bottom = 2
-texture_under = ExtResource("8_5sopq")
-texture_over = ExtResource("9_fsjjj")
-texture_progress = ExtResource("9_fsjjj")
+texture_under = SubResource("AtlasTexture_k2cu0")
+texture_over = SubResource("AtlasTexture_tu1tw")
+texture_progress = SubResource("AtlasTexture_go3nu")

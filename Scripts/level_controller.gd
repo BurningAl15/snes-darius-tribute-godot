@@ -9,6 +9,26 @@ extends Node2D
 @export var spawn_interval: float = 1.4
 @export var spawn_y_margin: float = 40.0
 
+# --- Timeline / Waves ---
+@export var use_timeline: bool = true
+
+@export var phase_durations: Array[float] = [30.0, 45.0, 45.0]
+
+@export var phase_spawn_intervals: Array[float] = [1.6, 1.3, 1.0]
+
+# Weights por fase. Cada elemento debe tener el MISMO tamaño que enemy_pool.
+# Ejemplo con 2 enemigos [Basic, Shooter]:
+# [
+#   PackedFloat32Array([90.0, 10.0]),
+#   PackedFloat32Array([70.0, 30.0]),
+#   PackedFloat32Array([50.0, 50.0]),
+# ]
+@export var phase_weights: Array[PackedFloat32Array] = [
+	PackedFloat32Array([]),
+	PackedFloat32Array([]),
+	PackedFloat32Array([]),
+]
+
 # --- Scenes ---
 @export var victory_scene: PackedScene
 @export var game_over_scene: PackedScene
@@ -20,9 +40,14 @@ var time_left: float
 var game_over_triggered := false
 var victory_triggered := false
 
+# Timeline runtime
+var phase_index := 0
+var phase_time_left := 0.0
+var current_weights: Array[float] = []
+
 @onready var spawn_timer: Timer = $Spawners/SpawnTimer
 
-# --- HUD (safe) ---
+# --- HUD ---
 @onready var time_label: Label = get_node_or_null("HUD/Root/TimeLabel") as Label
 @onready var hp_label: Label = get_node_or_null("HUD/Root/HBoxContainer/HpLabel") as Label
 @onready var bomb_label: Label = get_node_or_null("HUD/Root/HBoxContainer/BombLabel") as Label
@@ -47,6 +72,8 @@ func reset_level() -> void:
 		spawn_timer.timeout.connect(_spawn_enemy)
 	spawn_timer.start()
 
+	_init_timeline()
+
 	_update_hud()
 
 
@@ -64,7 +91,62 @@ func _process(delta: float) -> void:
 		end_level()
 		return
 
+	_update_timeline(delta)
+
 	_update_hud()
+
+
+func _init_timeline() -> void:
+	phase_index = 0
+	current_weights.clear()
+
+	if not use_timeline:
+		return
+
+	if phase_durations.is_empty():
+		use_timeline = false
+		return
+
+	phase_time_left = max(phase_durations[0], 0.0)
+	_apply_phase(phase_index)
+
+
+func _update_timeline(delta: float) -> void:
+	if not use_timeline:
+		return
+
+	if phase_index >= phase_durations.size():
+		return
+
+	phase_time_left -= delta
+	if phase_time_left > 0.0:
+		return
+
+	phase_index += 1
+	if phase_index >= phase_durations.size():
+		return
+
+	phase_time_left = max(phase_durations[phase_index], 0.0)
+	_apply_phase(phase_index)
+
+
+func _apply_phase(i: int) -> void:
+	if i < phase_spawn_intervals.size():
+		spawn_timer.wait_time = phase_spawn_intervals[i]
+
+	if enemy_pool.is_empty():
+		return
+	if i >= phase_weights.size():
+		return
+
+	var w := phase_weights[i]
+	if w.size() != enemy_pool.size():
+		current_weights.clear()
+		return
+
+	current_weights.clear()
+	for k in w.size():
+		current_weights.append(float(w[k]))
 
 
 func _get_player() -> Node:
@@ -104,6 +186,7 @@ func _update_hud() -> void:
 		hp_bar.max_value = float(player.max_hp)
 		hp_bar.value = float(player.hp)
 
+	# Charge Bar
 	if charge_bar:
 		charge_bar.min_value = 0.0
 		charge_bar.max_value = 100.0
@@ -128,11 +211,15 @@ func _spawn_enemy() -> void:
 
 func _pick_enemy_scene() -> PackedScene:
 	if not enemy_pool.is_empty():
-		if enemy_weights.size() != enemy_pool.size():
+		var weights_to_use: Array[float] = enemy_weights
+		if use_timeline and current_weights.size() == enemy_pool.size():
+			weights_to_use = current_weights
+
+		if weights_to_use.size() != enemy_pool.size():
 			return enemy_pool[randi() % enemy_pool.size()]
 
 		var total := 0.0
-		for w in enemy_weights:
+		for w in weights_to_use:
 			total += max(w, 0.0)
 
 		if total <= 0.0:
@@ -140,7 +227,7 @@ func _pick_enemy_scene() -> PackedScene:
 
 		var r := randf() * total
 		for i in enemy_pool.size():
-			r -= max(enemy_weights[i], 0.0)
+			r -= max(weights_to_use[i], 0.0)
 			if r <= 0.0:
 				return enemy_pool[i]
 		return enemy_pool.back()
