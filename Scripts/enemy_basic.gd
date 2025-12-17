@@ -20,8 +20,8 @@ func hit(dmg: int) -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_hurtbox"):
-		area.get_parent().take_damage(contact_damage) # parent = Player
-		queue_free() # opcional: se destruye al chocar
+		area.get_parent().take_damage(contact_damage)
+		die()
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
