@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://duc3dap55fujx"]
+[gd_scene load_steps=8 format=3 uid="uid://duc3dap55fujx"]
 
 [ext_resource type="Script" uid="uid://dg0etr8vt4fwp" path="res://Scripts/main_menu.gd" id="1_853f1"]
 [ext_resource type="FontFile" uid="uid://6axqsl8fqbcu" path="res://Fonts/gomarice_shmup_in_the_zone.ttf" id="2_8saeu"]
-[ext_resource type="Texture2D" uid="uid://clpec6ljj4wa5" path="res://Art/BasicBG.png" id="2_ghw46"]
+[ext_resource type="Texture2D" uid="uid://coqqermvlw3m" path="res://Art/EmptyBG.png" id="2_ghw46"]
+[ext_resource type="PackedScene" uid="uid://y8sdps2l1m5m" path="res://Prefabs/background.tscn" id="3_df05h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_df05h"]
 atlas = ExtResource("2_ghw46")
@@ -23,12 +24,20 @@ script = ExtResource("1_853f1")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -180.0
+offset_right = 320.0
+offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_df05h")
+
+[node name="Background" parent="CanvasLayer" instance=ExtResource("3_df05h")]
+position = Vector2(640, 362)
 
 [node name="TitleLabel" type="Label" parent="CanvasLayer"]
 layout_direction = 4

@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://d3lyo04n366ke" path="res://Prefabs/EnemyBasic2.tscn" id="3_e3p37"]
 [ext_resource type="PackedScene" uid="uid://c57hijfri57xk" path="res://Prefabs/Enemy_Shooter.tscn" id="3_skiku"]
 [ext_resource type="PackedScene" uid="uid://d3il4qsm5uenq" path="res://Scenes/GameOver.tscn" id="4_e3p37"]
-[ext_resource type="Texture2D" uid="uid://clpec6ljj4wa5" path="res://Art/BasicBG.png" id="5_dtkp6"]
 [ext_resource type="PackedScene" uid="uid://bcgqm4cpobvd2" path="res://Prefabs/Player.tscn" id="6_gi0k2"]
 [ext_resource type="FontFile" uid="uid://6axqsl8fqbcu" path="res://Fonts/gomarice_shmup_in_the_zone.ttf" id="7_1h8aw"]
+[ext_resource type="PackedScene" uid="uid://y8sdps2l1m5m" path="res://Prefabs/background.tscn" id="7_skiku"]
 [ext_resource type="Texture2D" uid="uid://7kntouj1jryb" path="res://Art/Bars.png" id="10_skiku"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7rmgh"]
@@ -58,10 +58,8 @@ victory_scene = ExtResource("3_c2p7f")
 game_over_scene = ExtResource("4_e3p37")
 player_path = NodePath("Player")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(638, 362.00003)
-scale = Vector2(0.68000245, 0.68000245)
-texture = ExtResource("5_dtkp6")
+[node name="Background" parent="." instance=ExtResource("7_skiku")]
+position = Vector2(638, 364)
 
 [node name="Player" parent="." instance=ExtResource("6_gi0k2")]
 position = Vector2(116, 300)
